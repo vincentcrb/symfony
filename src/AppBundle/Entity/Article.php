@@ -135,13 +135,13 @@ class Article
     /**
      * Set label
      *
-     * @param string $name
+     * @param string $label
      *
      * @return Article
      */
-    public function setLabel($name)
+    public function setLabel($label)
     {
-        $this->name = $name;
+        $this->label = $label;
 
         return $this;
     }
@@ -153,7 +153,7 @@ class Article
      */
     public function getLabel()
     {
-        return $this->name;
+        return $this->label;
     }
 }
 
