@@ -31,30 +31,4 @@ class DefaultController extends Controller
         ]);
 
     }
-
-    /**
-     * @Route("/articles", name="articles")
-     */
-    public function listAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository( Article:: class)
-            ->findAll();
-        return $this->render('default/article.html.twig', [
-            'articles' => $articles
-        ]);
-    }
-
-    /**
-     * @Route("/article/{id}", name="article-view", requirements={"id"="\d+"})
-     */
-    public function viewAction(int $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository(Article:: class)
-            ->find($id);
-        return $this->render('default/article-view.html.twig', [
-            'articles' => $articles
-        ]);
-    }
 }
