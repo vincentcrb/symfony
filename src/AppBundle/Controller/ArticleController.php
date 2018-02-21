@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Article;
+use AppBundle\Form\ArticleType;
 use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -46,13 +47,8 @@ class ArticleController extends Controller
     public function addAction(Request $request)
     {
         $article = new Article();
-        $form = $this->createFormBuilder($article)
-            ->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('price', NumberType::class)
-            ->add( 'label', \Symfony\Component\Form\Extension\Core\Type\TextType::class)
-            ->add('save', SubmitType::class,
-                ['label' => 'Ajouter un projet']) ->getForm();
+
+        $form = $this->createForm(ArticleType:: class, $article);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
@@ -70,19 +66,13 @@ class ArticleController extends Controller
     /**
      * @Route("/article/edit/{id}", name="article_edit")
      */
-    public function editAction(Request $request, int $id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
         $article = $em->getRepository(Article:: class)
             ->find($id);
 
-        $form = $this->createFormBuilder($article)
-            ->add('name', \Symfony\Component\Form\Extension\Core\Type\TextType::class)
-            ->add('description', TextareaType::class)
-            ->add('price', NumberType::class)
-            ->add( 'label', \Symfony\Component\Form\Extension\Core\Type\TextType::class)
-            ->add('save', SubmitType::class,
-                ['label' => 'Ajouter un projet']) ->getForm();
+        $form = $this->createForm(ArticleType:: class, $article);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
