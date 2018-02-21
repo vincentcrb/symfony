@@ -10,6 +10,8 @@
 <body>
     <h1>Liste des articles</h1>
     {% for article in articles %}
-    <p>{{ article.name }}</p> {% endfor %}
+    <p>{{ article.name }}</p>
+    <a href="{{ path('article-view', {'id': article.id}) }}">view article</a>
+    {% endfor %}
 </body>
 </html>
