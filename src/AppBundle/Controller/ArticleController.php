@@ -7,6 +7,9 @@ use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
+
 
 class ArticleController extends Controller
 {
@@ -26,14 +29,19 @@ class ArticleController extends Controller
     /**
      * @Route("/article/{id}", name="article-view", requirements={"id"="\d+"})
      */
-    public function viewAction(int $id)
+    public function viewAction($id)
     {
         $em = $this->getDoctrine()->getManager();
         $articles = $em->getRepository(Article:: class)
             ->find($id);
-        return $this->render('default/article-view.html.twig', [
-            'articles' => $articles
-        ]);
+        if(!empty($articles)){
+            return $this->render('default/article-view.html.twig', [
+                'articles' => $articles
+            ]);
+        }
+        else{
+            return new BadRequestHttpException( '404, Project not found.');
+        }
     }
 
     /**
