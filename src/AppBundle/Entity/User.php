@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
@@ -24,30 +25,16 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="firstName", type="string", length=255)
-     */
-    private $firstName;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="lastName", type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="email", type="string", length=255)
      */
     private $email;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="createdAt", type="datetime")
+     * @ORM\Column(name="password", type="string", length=255)
      */
-    private $createdAt;
+    private $password;
 
 
     /**
@@ -58,54 +45,6 @@ class User
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set firstName
-     *
-     * @param string $firstName
-     *
-     * @return User
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * Get firstName
-     *
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * Set lastName
-     *
-     * @param string $lastName
-     *
-     * @return User
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    /**
-     * Get lastName
-     *
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
     }
 
     /**
@@ -133,27 +72,48 @@ class User
     }
 
     /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
+     * @param string $password
      *
      * @return User
      */
-    public function setCreatedAt($createdAt)
+    public function setPassword($password)
     {
-        $this->createdAt = $createdAt;
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * Get createdAt
-     *
-     * @return \DateTime
+     * @return string
      */
-    public function getCreatedAt()
+    public function getPassword()
     {
-        return $this->createdAt;
+        return $this->password;
     }
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+        return null;
+    }
+
+    public function getUsername()
+    {
+        // TODO: Implement getUsername() method.
+        return $this->email;
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+        return;
+    }
+
 }
 

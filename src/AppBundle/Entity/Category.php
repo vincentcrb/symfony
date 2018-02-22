@@ -70,7 +70,7 @@ class Category
      */
     public function setLabel($label)
     {
-        $this->$label = $label;
+        $this->label = $label;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Manager\ArticleManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -16,11 +17,10 @@ class ArticleController extends Controller
     /**
      * @Route("/article", name="article_list")
      */
-    public function listAction()
+    public function listAction(ArticleManager $articleManager)
     {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository( Article:: class)
-            ->findAll();
+        $articles = $articleManager->getArticles();
+
         return $this->render('default/article.html.twig', [
             'articles' => $articles
         ]);
@@ -29,18 +29,17 @@ class ArticleController extends Controller
     /**
      * @Route("/article/{id}", name="article-view", requirements={"id"="\d+"})
      */
-    public function viewAction($id)
+    public function viewAction(ArticleManager $articleManager, $id)
     {
-        $em = $this->getDoctrine()->getManager();
-        $articles = $em->getRepository(Article:: class)
-            ->find($id);
+        $articles = $articleManager->getArticle($id);
+
         if(!empty($articles)){
             return $this->render('default/article-view.html.twig', [
                 'articles' => $articles
             ]);
         }
         else{
-            return new BadRequestHttpException( '404, Project not found.');
+            throw new BadRequestHttpException( '404, Project not found.');
         }
     }
 

@@ -11,7 +11,10 @@
     <h1>Liste des articles</h1>
     {% for article in articles %}
     <p>{{ article.name }}</p>
+    <p>{{ article.category.label }}</p>
     <a href="{{ path('article-view', {'id': article.id}) }}">view article</a>
     {% endfor %}
+    <br/><br/>
+    <a href="{{ path('article_add') }}">Add article</a>
 </body>
 </html>
